@@ -1,1 +1,0 @@
-# fawry-internship-task

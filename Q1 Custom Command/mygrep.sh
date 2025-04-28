@@ -1,9 +1,5 @@
 #!/bin/bash
 
-ignore_case=true
-show_line_numbers=false
-invert_match=false
-
 print_usage() {
   echo "Usage: $0 [OPTIONS] PATTERN FILE"
   echo "Options:"
@@ -12,6 +8,15 @@ print_usage() {
   echo "  -vn or -nv Combine -v and -n"
   echo "  --help Show this help message"
 }
+
+if [[ "$1" == "--help" ]]; then
+  print_usage
+  exit 0
+fi
+
+ignore_case=true
+show_line_numbers=false
+invert_match=false
 
 while getopts "nv" opt; do
   case "$opt" in
@@ -46,8 +51,7 @@ fi
 
 line_number=1
 
-while IFS= read -r line; 
-do
+while IFS= read -r line; do
   trimmed_line=$(echo "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
   if [[ -n "$trimmed_line" ]]; then
@@ -76,8 +80,3 @@ do
   fi
   ((line_number++))
 done < "$filename"
-
-if [[ "$1" == "--help" ]]; then
-  print_usage
-  exit 0
-fi
